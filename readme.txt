@@ -1,14 +1,20 @@
 Planet Defend(PLD) is a mod of starsector (starsector is a STG game By Alex, http://fractalsoftworks.com/).
+       
+
+For starsector version 0.6.1a
 
 Current Features:
-1. Mother Ship (the only feature activate in compatible mod) 
+1. Mother Ship (the only feature activate in compatible mode) 
   1) as a mobile storage station (but consume supplies every day)
-  2) player can press 'A' open the Mother Ship interaction dialog and communicate with Mother Ship
-  3) Once fleet 'Mother Ship' gone, it never come back again, take care of it!
+  2) player can press 'A' to open the Mother Ship interaction dialog and communicate with Mother Ship
+  3) Once fleet 'Mother Ship' is gone, it never come back again, take care of it!
   
-Known Bugs:
+Known Bugs:	
 1. when player and MotherShip are not in the same location(starSystem/hyperspace), location-based command not work.
-2. after exchange ships, you should pick and drop the new member. If you don't do that ,the fleet data won't be set collectly.
+2. after exchange ships, you should pick and drop the new member. If you don't do that ,the fleet data won't be set correctly.
+
+Technical problems:
+1. how to exchange ship betweens fleets. I use the dummy neutral station currently. It leads to bug 2.
 
 Ideas/Planning:
 1. Army system, a group of fleets, lead by a flag fleet. 
@@ -24,7 +30,8 @@ Build Guide: (assume you have basic knowledge of java development)
 (for windows)
 1. make sure jdk1.6+ and maven 3+ installed and configured 
 2. edit config/gamedir.txt to fit your environment
-3. open dos prompt, go to the project directory, and run 
+3. edit %gamedir%/starsector-core/starsector.bat, change the screenshots, mods, saves dir to parent dir. (for debug)
+4. open dos prompt, go to the project directory, and run 
    1) configure.bat
    2) debug.bat
 
