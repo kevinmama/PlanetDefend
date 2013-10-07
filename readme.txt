@@ -1,4 +1,4 @@
-Planet Defend(PLD) is a mod of starsector (By Alex, http://fractalsoftworks.com/).
+Planet Defend(PLD) is a mod of starsector (starsector is a STG game By Alex, http://fractalsoftworks.com/).
 
 Current Features:
 1. Mother Ship (the only feature activate in compatible mod) 
@@ -29,7 +29,7 @@ Build Guide: (assume you have basic knowledge of java development)
    2) debug.bat
 
 
--------------------------------------------------------------------------------------------------
+--------------------------------------------------------
 
 Nebular Fantasy(NF) is a support framework of PLD. I'd try to make it easy to share between mods.
 
@@ -46,7 +46,7 @@ Current Features:
     3) fleet action support
 5. misc
 	1) auto drive
-	2) log
+	2) custom logging
 
 Shortage:
 1. none of finished mod to support it. lack of verification
