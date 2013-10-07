@@ -10,7 +10,7 @@ Current Features:
   3) Once fleet 'Mother Ship' is gone, it never come back again, take care of it!
   
 Known Bugs:	
-1. when player and MotherShip are not in the same location(starSystem/hyperspace), location-based command not work.
+1. when player and MotherShip are not in the same location(starSystem/hyperspace), vector-based command not work.
 2. after exchange ships, you should pick and drop the new member. If you don't do that ,the fleet data won't be set correctly.
 
 Technical problems:
@@ -19,6 +19,7 @@ Technical problems:
 Ideas/Planning:
 1. Army system, a group of fleets, lead by a flag fleet. 
 2. Economy system, station produce/consume supplies. 
+3. station takeover
 
 Project Dependency:
 1. starsector
@@ -58,6 +59,4 @@ Current Features:
 Shortage:
 1. none of finished mod to support it. lack of verification
 2. In developing, API is not stable currently.
-3. I'm not a native english speaker. It may have some strange naming, comment and lots of syntax error.
-
  
