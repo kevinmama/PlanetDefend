@@ -1,0 +1,40 @@
+{
+	id:"neutral",
+	"color":[155,155,155,255],
+	"displayName":"Neutral",
+	"names":{
+	},
+	"portraits":{
+	},
+	"fleetCompositions":{
+		"dummy":{
+			"displayName":"dummy",
+            "maxFleetPoints":0,
+           	"daysWorthOfSupplies":[0, 0],
+           	"lyWorthOfFuel":[0, 0],
+           	"extraCrewPercent":[0, 0],
+           	"marinesPercent":[0, 0],
+           	"ships":{
+                "atlas_Standard":[0, 0],
+   	        },
+		},
+		
+		"flag_fleet":{
+			"displayName":"MotherShip",
+            "maxFleetPoints":1000,
+           	"daysWorthOfSupplies":[365, 365],
+           	"lyWorthOfFuel":[1000, 1000],
+           	"extraCrewPercent":[10, 20],
+           	"marinesPercent":[10, 20],
+           	"ships":{
+           		"onslaught_Elite": [1, 1],
+           		"dominator_Assault": [3, 3],
+                "venture_Balanced":[3, 3],
+                "condor_FS": [5,5],
+                "phaeton_Standard": [3,3],
+                "valkyrie_Elite": [3,3],
+                "atlas_Standard": [3,3],
+   	        },
+		}
+	},
+}

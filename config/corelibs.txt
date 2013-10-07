@@ -1,0 +1,15 @@
+commons-compiler
+commons-compiler-jdk
+fs.common_obf
+fs.sound_obf
+janino
+jinput
+jogg-0.0.7
+jorbis-0.0.15
+json
+log4j-1.2.9
+lwjgl
+lwjgl_util
+starfarer.api
+starfarer_obf
+xstream-1.4.2

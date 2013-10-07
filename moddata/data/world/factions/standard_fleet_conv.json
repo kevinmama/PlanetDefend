@@ -1,0 +1,43 @@
+{
+	"id":"standard_fleet_conv",
+	"convClass":"data.factions.StandardFleetConv",
+
+	"lines":{
+		"greeting_aggressive":"Well, well. If we can do this the easy way, I promise we won't put holes in your lifeboats for sport. Unless some of the boys get trigger-happy, but with the space-fever, who can blame them?",
+		"threaten_success":"Yes, perhaps we'd better reconsider.",
+		"threaten_failure":"I'm trembling in my magnetic boots.",
+	},
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,2 @@
+TODO:
+1. randomly build systems, planets and stations.

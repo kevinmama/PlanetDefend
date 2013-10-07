@@ -1,0 +1,9 @@
+{
+
+	# this section is meant to eventually replace the "magical" data/scripts/plugins directory
+	"plugins":{
+		"combatReadinessPlugin":"com.fs.starfarer.api.impl.combat.CRPluginImpl",
+		#"newGameCreationEntryPoint":"starsector.mod.pld.PLDSectorGen",
+		"newGameCreationEntryPoint":"data.scripts.world.SectorGen",
+	}
+}

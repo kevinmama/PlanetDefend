@@ -1,0 +1,42 @@
+{
+	"mining": {
+		"mining_rate": 1,				# supply unit per hour per mining drone
+		"mining_fleet_variant_id": "mining",
+		"mining_fleet_spawn_day": 2, 	# days to spawn mining_fleet
+		"mining_fleet_spawn_cost": 1000,		# mining fleet cost to spawn
+		"mining_fleet_limit_per_station":1,		# 
+		"mining_fleet_supply_reserve": 50,		# mining fleet reserve for travelling
+	},	
+	
+	"station": {
+		"supply_reserve": 2000,			# below this value, station won't spawn any fleets
+		"marine_consume_rate": 0.08,	# unit per persion per day
+		"green_crew_consume_rate": 0.002,
+		"regular_crew_consume_rate": 0.003,
+		"veteran_crew_consume_rate": 0.005,
+		"elite_crew_consume_rate": 0.008,
+	},
+	
+	"salary": {
+		
+		"officer_base": 250,		# 10 times of a elite soilder
+		"officer_multiplier": {	# salary per level
+			"0":  50,
+			"10": 100,
+			"20": 200,
+			"30": 500,
+			"40": 1000,
+			"50": 5000,
+		},
+		
+		# unit per persion per week
+		# defined by one of three times of sold credit per month.
+		# Since you fire some one ,you should paid for 3 times of monthly salary 
+		
+		"marine": 25,	# sold 300
+		"green_crew": 1,	# sold 10
+		"regular_crew": 4,  # sold 50
+		"veteran_crew": 8,	# sold 100
+		"elite_crew": 25,	# sold 300
+	},
+}

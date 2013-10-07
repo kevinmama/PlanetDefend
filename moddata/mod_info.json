@@ -1,0 +1,16 @@
+{
+	"id":"PlanetDefend", # internal id
+	"name":"Planet Defend", # displayed to the player
+	"author":"fengyuan",
+	"version":"0.0.1",
+	"description":"Defend you planet and destroy all enemies!",
+	"gameVersion":"0.6.1a",
+	"totalConversion":"false",
+	"modPlugin":"starsector.mod.pld.PLDModPlugin",
+	"jars":[
+		"jars/PlanetDefend-all.jar",
+	],
+	"replace":[
+		"data/campaign/resources.csv",
+	],
+}
