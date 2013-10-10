@@ -3,8 +3,11 @@ package starsector.mod.pld.domain;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
+import com.fs.starfarer.api.campaign.CampaignFleetAPI;
+import com.fs.starfarer.api.campaign.OrbitalStationAPI;
 import com.fs.starfarer.api.campaign.StarSystemAPI;
 
 /**
@@ -27,22 +30,22 @@ public class PLDRegistry {
 	/**
 	 * global registry
 	 */
-	Map<Long, PLDObject> objectRegistry = new HashMap<Long, PLDObject>();
+	Map<Long, PLDObject> objectRegistry = new ConcurrentHashMap<Long, PLDObject>();
 	
 	/**
 	 * station registry, index by qualified name.
 	 */
-	Map<String, PLDStation> stationRegistry = new HashMap<String, PLDStation>();
+	Map<OrbitalStationAPI, PLDStation> stationRegistry = new ConcurrentHashMap<OrbitalStationAPI, PLDStation>();
 	
 	/**
 	 * fleet registry, index by qualified name
 	 */
-	Map<String, PLDFleet> fleetRegistry = new HashMap<String, PLDFleet>();
+	Map<CampaignFleetAPI, PLDFleet> fleetRegistry = new ConcurrentHashMap<CampaignFleetAPI, PLDFleet>();
 	
 	/**
 	 * army registry
 	 */
-	Map<String, PLDArmy> armyRegistry = new HashMap<String, PLDArmy>();
+	Map<Long, PLDArmy> armyRegistry = new ConcurrentHashMap<Long, PLDArmy>();
 	
 	
 	/**
@@ -66,9 +69,9 @@ public class PLDRegistry {
 		for (Type type : types) {
 			switch (type) {
 //			case GLOBAL: objectRegistry.put(object.getGid(), object);break;
-			case STATION: stationRegistry.put(object.getQualifiedName(), (PLDStation) object);break;
-			case FLEET: fleetRegistry.put(object.getQualifiedName(), (PLDFleet) object);break;
-			case ARMY: armyRegistry.put(object.getQualifiedName(), (PLDArmy)object);break;
+			case STATION: stationRegistry.put(((PLDStation)object).getStation(), (PLDStation) object);break;
+			case FLEET: fleetRegistry.put(((PLDFleet) object).getFleet(), (PLDFleet) object);break;
+			case ARMY: armyRegistry.put(object.getGid(), (PLDArmy)object);break;
 			default:
 				break;
 			}
@@ -83,9 +86,9 @@ public class PLDRegistry {
 		for (Type type : types) {
 			switch (type) {
 //			case GLOBAL: objectRegistry.remove(object.getGid()); break;
-			case STATION: stationRegistry.remove(object.getQualifiedName()); break;
-			case FLEET: fleetRegistry.remove(object.getQualifiedName()); break;
-			case ARMY: armyRegistry.remove(object.getQualifiedName()); break;
+			case STATION: stationRegistry.remove(object); break;
+			case FLEET: fleetRegistry.remove(object); break;
+			case ARMY: armyRegistry.remove(object.getGid()); break;
 			default:
 				break;
 			}
@@ -98,6 +101,18 @@ public class PLDRegistry {
 	 */
 	public PLDObject get(long gid){
 		return objectRegistry.get(gid);
+	}
+	
+	public PLDFleet getFleet(CampaignFleetAPI fleet){
+		return fleetRegistry.get(fleet);
+	}
+	
+	public PLDStation getStation(OrbitalStationAPI station){
+		return stationRegistry.get(station);
+	}
+	
+	public PLDArmy getArmy(long gid){
+		return armyRegistry.get(gid);
 	}
 	
 	/**

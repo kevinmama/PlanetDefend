@@ -15,13 +15,18 @@ public class BaseDlgMenuItem extends BaseMenuItem implements DlgMenuItem{
 	protected int keyCode;
 	
 	public BaseDlgMenuItem(String text){
-		this(text, null);
+		this(text, null, Keyboard.KEY_NONE);
 	}
 	
 	public BaseDlgMenuItem(String text, BaseDlgMenu parent){
+		this(text, parent, Keyboard.KEY_NONE);
+	}
+	
+	public BaseDlgMenuItem(String text, BaseDlgMenu parent, int keyCode){
 		this.text = text;
 		if (parent != null)
 			parent.addItem(this);
+		this.keyCode = keyCode;
 	}
 	
 	public String getText() {

@@ -7,7 +7,6 @@ import starsector.mod.nf.event.CoreEventType;
 import starsector.mod.nf.event.Event;
 import starsector.mod.nf.event.KeyPressEvent;
 
-import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.CampaignFleetAPI;
 
 /**
@@ -31,7 +30,8 @@ public abstract class AutoDriver extends BaseEventListener{
 			CoreEventType.KEY_PRESS,
 			CoreEventType.MOUSE_CLICK,
 			CoreEventType.HEARTBEAT_FRAME,
-			CoreEventType.HEARTBEAT_HOUR
+//			CoreEventType.HEARTBEAT_HOUR
+			CoreEventType.HEARTBEAT_DAY
 		);
 	}
 	
@@ -55,7 +55,7 @@ public abstract class AutoDriver extends BaseEventListener{
 				else
 					drive();
 				break;
-			case HEARTBEAT_HOUR:
+			case HEARTBEAT_DAY:
 				// there is still a little probability stop auto drive at once.
 				// just ignore
 				listenKeyPress = true;

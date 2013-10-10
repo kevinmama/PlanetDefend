@@ -7,10 +7,8 @@ import org.lwjgl.input.Keyboard;
 import starsector.mod.nf.menu.BaseDlgMenu;
 import starsector.mod.nf.menu.BaseDlgMenuItem;
 import starsector.mod.nf.menu.MenuDialogPlugin;
-import starsector.mod.nf.support.CargoSupport;
 import starsector.mod.pld.PLD;
 import starsector.mod.pld.domain.PLDFleet;
-import starsector.mod.pld.misc.PLDUtils;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.CampaignFleetAPI;
@@ -128,24 +126,24 @@ public class FlagFleetDialogPlugin extends MenuDialogPlugin implements CoreInter
 	}
 	
 	private OrbitalStationAPI createDummyIfNeed(){
-		if (dummy == null){
-			System.out.println("create dummy");
-			dummy = PLDUtils.createDummyStation(flagFleet.getName());
-			CargoSupport.setCargo(dummy.getCargo(), flagFleet.getFleet(), false);	// sync cargo to dummy
-		}
-		return dummy;
+//		if (dummy == null){
+//			dummy = PLDUtils.createDummyStation(flagFleet.getName());
+//			CargoSupport.setCargo(dummy.getCargo(), flagFleet.getFleet(), false);	// sync cargo to dummy
+//		}
+//		return dummy;
+		return null;
 	}
 	
 	private void removeDummyIfNeed(){
-		if (dummy != null){
-			System.out.println("remove dummy");
-			// sync to flagFleet
-			CampaignFleetAPI fleet = flagFleet.getFleet();	
-			CargoSupport.clear(fleet, false);
-			CargoSupport.takeAll(fleet, dummy.getCargo());
-			PLDUtils.removeDummyStation(dummy);
-			dummy = null;
-		}
+//		if (dummy != null){
+//			// sync to flagFleet
+//			CampaignFleetAPI fleet = flagFleet.getFleet();	
+//			CargoSupport.clear(fleet, false);
+//			CargoSupport.takeAll(fleet, dummy.getCargo());
+//			PLDUtils.removeDummyStation(dummy);
+//			CargoSupport.renewFleetMembers(playerFleet.getFleet());
+//			dummy = null;
+//		}
 	}
 	
 	@Override

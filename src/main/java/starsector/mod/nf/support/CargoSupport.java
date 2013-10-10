@@ -8,13 +8,17 @@ import java.util.List;
 
 import org.apache.commons.collections.map.MultiKeyMap;
 
+import com.fs.starfarer.api.FactoryAPI;
+import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.CampaignFleetAPI;
 import com.fs.starfarer.api.campaign.CargoAPI;
 import com.fs.starfarer.api.campaign.CargoAPI.CargoItemQuantity;
 import com.fs.starfarer.api.campaign.CargoAPI.CargoItemType;
 import com.fs.starfarer.api.campaign.CargoAPI.CrewXPLevel;
 import com.fs.starfarer.api.campaign.FleetDataAPI;
+import com.fs.starfarer.api.characters.PersonAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
+import com.fs.starfarer.api.fleet.FleetMemberStatusAPI;
 import com.fs.starfarer.api.util.MutableValue;
 
 /**
@@ -585,12 +589,51 @@ public class CargoSupport {
 		FleetDataAPI data = fleet.getFleetData();
 		FleetDataAPI ships = cargo.getMothballedShips();
 		if (ships != null){
+			
+			//
+			// there is a bug when player take ships from neutral station
+			// fleetData will null.
+			//
+			
 			List<FleetMemberAPI> list = ships.getMembersListCopy();
+			
+			//
+			// recreate the memebers
+			//
+//			FactoryAPI factory = Global.getFactory();
 			for (FleetMemberAPI member : list) {
+//				ShipVariantAPI variant = member.getVariant();
+//				FleetMemberAPI newMember = factory.createFleetMember(member.getType(), variant.getHullVariantId());
+				//
+				// set weapon and logistics
+				//
+//				newMember.setVariant(variant, true, true);
+//				data.addFleetMember(newMember);
+				
 				data.addFleetMember(member);
 			}
 		}
 		cargo.clear();
+	}
+	
+	/**
+	 * fleet1 take all items and fleets from fleet2
+	 * @param fleet
+	 * @param another
+	 * @param includingFlagship
+	 */
+	public static void takeAll(CampaignFleetAPI fleet1, CampaignFleetAPI fleet2){
+		CargoAPI cargo2 = fleet2.getCargo();
+		addCargo0(fleet1.getCargo(), cargo2);
+		fleet2.getCargo().clear();
+		FleetDataAPI data1 = fleet1.getFleetData();
+		FleetDataAPI data2 = fleet2.getFleetData();
+		List<FleetMemberAPI> members = data2.getMembersListCopy();
+		for (FleetMemberAPI member : members) {
+			data2.removeFleetMember(member);
+			data1.addFleetMember(member);
+		}
+		data2.clear();
 	}
 	
 	/**
@@ -628,4 +671,34 @@ public class CargoSupport {
 			data.removeFleetMember(member);
 		}
 	}
+	
+	/**
+	 * recreate all fleet member. fix a bug when take ship from deleted dummy station
+	 * @param fleet
+	 */
+	public static void renewFleetMembers(CampaignFleetAPI fleet){
+		FleetDataAPI data = fleet.getFleetData();
+		List<FleetMemberAPI> members = data.getMembersListCopy();
+		FactoryAPI factory = Global.getFactory();
+		for (FleetMemberAPI member : members) {
+			FleetMemberAPI newMember = factory.createFleetMember(member.getType(), member.getVariant().getHullVariantId());
+			boolean flagship = member.isFlagship();
+			PersonAPI captain = member.getCaptain();
+			newMember.setVariant(member.getVariant(), true, true);
+			
+			//
+			// copy status
+			//
+			FleetMemberStatusAPI status = member.getStatus();
+			FleetMemberStatusAPI newStatus = newMember.getStatus();
+			newStatus.applyHullFractionDamage(1-status.getHullFraction());
+			
+			data.addFleetMember(newMember);
+			data.removeFleetMember(member);
+			
+			newMember.setFlagship(flagship);
+			newMember.setCaptain(captain);
+		}
+	}
+	
 }

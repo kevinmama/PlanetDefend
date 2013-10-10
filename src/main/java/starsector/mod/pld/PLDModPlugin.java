@@ -18,7 +18,7 @@ public class PLDModPlugin extends NFModPlugin{
 	@Override
 	public void onNewGame() {
 		log.info("onNewGame:");
-		new CompatibleGenerator().generate(Global.getSector());
+//		new CompatibleGenerator().generate(Global.getSector());
 		super.onNewGame();
 	}
 	

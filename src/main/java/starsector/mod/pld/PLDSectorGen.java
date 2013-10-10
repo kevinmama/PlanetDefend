@@ -4,14 +4,17 @@ package starsector.mod.pld;
 import starsector.mod.nf.NF;
 import starsector.mod.nf.NFSectorGeneratorPlugin;
 import starsector.mod.nf.cmd.KeyboardCommand;
+import starsector.mod.nf.debug.DebugMenuFactory;
 import starsector.mod.nf.event.BaseEventListener;
 import starsector.mod.nf.event.EventBus;
 import starsector.mod.nf.log.AppenderType;
 import starsector.mod.nf.log.Logger;
 import starsector.mod.pld.camp.InitPlayerArmy;
-import starsector.mod.pld.camp.PLDCampaignPlugin;
 import starsector.mod.pld.camp.InitPlayerFleet;
+import starsector.mod.pld.camp.PLDCampaignPlugin;
 import starsector.mod.pld.cmd.CallArmyMenuCmd;
+import starsector.mod.pld.debug.ArmyDebugMenuFactory;
+import starsector.mod.pld.debug.RegistryDebugMenuFactory;
 import starsector.mod.pld.domain.PLDRegistry;
 import starsector.mod.pld.misc.MessageNotifier;
 import starsector.mod.pld.rules.RuleSalary;
@@ -60,7 +63,7 @@ public class PLDSectorGen extends NFSectorGeneratorPlugin{
 	public void afterGenerateSector(NF nebularFantasy) {
 		
 		SectorAPI sector = Global.getSector();
-//		
+		
 		//
 		// register rules
 		//
@@ -92,6 +95,19 @@ public class PLDSectorGen extends NFSectorGeneratorPlugin{
 		
 		for (KeyboardCommand cmd : cmds) {
 			nebularFantasy.registerKeyboardCommand(cmd);
+		}
+		
+		//
+		// register debug menus
+		// 
+
+		DebugMenuFactory[] debugMenuFactories = {
+			new RegistryDebugMenuFactory(),
+			new ArmyDebugMenuFactory()
+		};
+		
+		for (DebugMenuFactory debugMenuFactory : debugMenuFactories) {
+			NF.getDebugManager().contributeDebugMenu(debugMenuFactory);
 		}
 		
 		//

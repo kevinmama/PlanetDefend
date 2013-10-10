@@ -1,5 +1,6 @@
 package starsector.mod.pld.domain;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -40,8 +41,8 @@ public class PLDArmy extends PLDObject{
 		return name;
 	}
 	
-	public Collection<PLDFleet> getFleets(){
-		return fleets;
+	public Collection<PLDFleet> getFleetsCopy(){
+		return new ArrayList<PLDFleet>(fleets);
 	}
 	
 	public PLDFleet getFlagFleet(){
@@ -78,6 +79,15 @@ public class PLDArmy extends PLDObject{
 		}else{
 			fleets.remove(fleet);
 		}
+	}
+	
+	/**
+	 * is fleet in army
+	 * @param fleet
+	 * @return
+	 */
+	public boolean contains(PLDFleet fleet){
+		return fleets.contains(fleet);
 	}
 	
 }

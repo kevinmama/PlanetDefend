@@ -51,7 +51,7 @@ public abstract class NFSectorGeneratorPlugin implements SectorGeneratorPlugin{
 		//
 		// raise sector generated event
 		//
-		nf.getEventbus().dispatch(CoreEventType.SECTOR_GENERATED);
+		NF.getEventbus().dispatch(CoreEventType.SECTOR_GENERATED);
 	}
 	
 	/**

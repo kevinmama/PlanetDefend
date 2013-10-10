@@ -28,7 +28,6 @@ class Daemon extends BaseEventListener{
 		case HEARTBEAT_FRAME:
 			if (NF.INS != nebularFantasy){
 				log.info("detect NEBULAR_FANTASY changed");
-				NFSettings.reload();
 				nebularFantasy.reload();
 				eventbus.dispatch(CoreEventType.SECTOR_RELOAD);
 			}

@@ -21,7 +21,7 @@ public class AutoDrivers {
 	 * @param onCompletion
 	 */
 	public static void gotoloc(SectorEntityToken target, Script onCompletion){
-		EventBus eventbus = NF.instance().getEventbus();
+		EventBus eventbus = NF.getEventbus();
 		CampaignFleetAPI fleet = PLD.getRegistry().getPlayerFleet().getFleet();
 		new GotoLocationDriver(fleet, target, 0, onCompletion).register(eventbus);
 	}
@@ -32,7 +32,7 @@ public class AutoDrivers {
 	 * @param distance
 	 */
 	public static void follow(SectorEntityToken target, float distance){
-		EventBus eventbus = NF.instance().getEventbus();
+		EventBus eventbus = NF.getEventbus();
 		CampaignFleetAPI fleet = PLD.getRegistry().getPlayerFleet().getFleet();
 		new FollowDriver(fleet, target, distance).register(eventbus);
 	}

@@ -24,7 +24,7 @@ class InputEventSource extends BaseEventListener{
 	private int curDownButton = -1;
 	
 	public InputEventSource() {
-		setName("keyboardMessager");
+		setName(InputEventSource.class.getSimpleName());
 		listen(CoreEventType.HEARTBEAT_FRAME);
 	}
 

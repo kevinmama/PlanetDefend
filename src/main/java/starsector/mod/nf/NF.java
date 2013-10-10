@@ -1,9 +1,9 @@
 package starsector.mod.nf;
 
-import starsector.mod.nf.cmd.CheckFrendlyFleetCmd;
 import starsector.mod.nf.cmd.KeyboardCommand;
-import starsector.mod.nf.cmd.LevelUpCmd;
 import starsector.mod.nf.cmd.ToggleDebugCmd;
+import starsector.mod.nf.debug.DebugManager;
+import starsector.mod.nf.debug.CallDebugMenuDialogCmd;
 import starsector.mod.nf.event.BaseEventListener;
 import starsector.mod.nf.event.EventBus;
 import starsector.mod.nf.log.AppenderType;
@@ -29,14 +29,6 @@ public class NF{
 	
 	private static Logger log;
 	
-	public static NF instance(){
-		if (INS == null){
-			Logger log = Logger.getLogger(NF.class);
-			log.error("error: NebularFantasy should not be null!!!", new NullPointerException());
-		}
-		return INS;
-	}
-	
 	//=============================================
 	// global objects
 	//=============================================
@@ -47,6 +39,11 @@ public class NF{
 	private EventBus eventbus;
 	
 	/**
+	 * the debug manager, help to execute various debug action.
+	 */
+	private DebugManager debugManager;
+	
+	/**
 	 * keyboard event command executor 
 	 */
 	private KeyboardCommandExecutor keyboardCommandExecutor;
@@ -55,16 +52,18 @@ public class NF{
 	 * get the NebularFantasy event bus.
 	 * @return
 	 */
-	public EventBus getEventbus() {
-		return eventbus;
+	public static EventBus getEventbus() {
+		return INS.eventbus;
+	}
+	
+	public static DebugManager getDebugManager() {
+		return INS.debugManager;
 	}
 
 	/**
 	 * init global settings. This can be called when application start.
 	 */
 	public static void init(){
-//		debugging = Global.getSettings().isDevMode();
-		MessageLogAppender.ON = NFSettings.debugging;
 		log = Logger.getLogger(NF.class, AppenderType.LOG4J);
 		log.info("Nebular Fantasy Framework initialized, debugging=" + NFSettings.debugging);
 	}
@@ -87,10 +86,16 @@ public class NF{
 	 * create objects
 	 */
 	private void _create(){
+		
 		//
-		// create eventbus and register core event source
+		// create global objects
 		//
+		debugManager = new DebugManager();
 		eventbus = new EventBus();
+		
+		//
+		// register core event source
+		//
 		
 		BaseEventListener[] eventListeners = {
 				new Daemon(this), // make sure this object at the begining of the listener chain
@@ -108,8 +113,9 @@ public class NF{
 		//
 		KeyboardCommand[] cmds = {
 				new ToggleDebugCmd(),
-				new CheckFrendlyFleetCmd(),
-				new LevelUpCmd(),
+				new CallDebugMenuDialogCmd(),
+//				new CheckFrendlyFleetCmd(),
+//				new LevelUpCmd(),
 		};
 		for (KeyboardCommand cmd : cmds) {
 			keyboardCommandExecutor.registerCommand(cmd);
@@ -130,6 +136,7 @@ public class NF{
 	 * when game loaded, some static object breaks. Fix it
 	 */
 	void reload(){
+		NFSettings.reload();
 		INS = this;
 	}
 	

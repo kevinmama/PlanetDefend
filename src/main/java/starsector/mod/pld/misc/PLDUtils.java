@@ -5,7 +5,9 @@ import java.util.Collection;
 import org.apache.commons.collections.Closure;
 
 import starsector.mod.pld.PLD;
-import starsector.mod.pld.PLDSettings;
+import starsector.mod.pld.domain.PLDArmy;
+import starsector.mod.pld.domain.PLDFleet;
+import starsector.mod.pld.domain.PLDRegistry;
 import starsector.mod.pld.domain.PLDStation;
 
 import com.fs.starfarer.api.Global;
@@ -15,7 +17,6 @@ import com.fs.starfarer.api.campaign.CargoAPI.CrewXPLevel;
 import com.fs.starfarer.api.campaign.OrbitalStationAPI;
 import com.fs.starfarer.api.campaign.SectorAPI;
 import com.fs.starfarer.api.campaign.SectorEntityToken;
-import com.fs.starfarer.api.campaign.StarSystemAPI;
 
 
 public final class PLDUtils {
@@ -76,44 +77,42 @@ public final class PLDUtils {
 		return sector.createFleet("neutral", "dummy");
 	}
 	
-	
 	/**
-	 * create a dummy location the access the item and fleet exchange UI,
-	 * user should quickly remove it to prevent AI do some strange actions.
+	 * create an empty detachment
+	 * @param army
 	 * @return
 	 */
-	public static OrbitalStationAPI createDummyStation(String name){
+	public static PLDFleet createEmptyDetachment(PLDArmy army){
 		SectorAPI sector = Global.getSector();
-//		LocationAPI sys = sector.getCurrentLocation();
-		StarSystemAPI sys = sector.getStarSystem(PLDSettings.DUMMY_STAR_SYSTEM_NAME);
-		if (sys == null){
-			sys = sector.createStarSystem(PLDSettings.DUMMY_STAR_SYSTEM_NAME);
-		}
-		return (OrbitalStationAPI)sys.addOrbitalStation(sys.getStar(), 0, 100, 100, name, "neutral");
-//		LocationAPI loc = sector.getCurrentLocation();
-//		CampaignFleetAPI fleet = sector.getPlayerFleet();
+		CampaignFleetAPI dummyFleet = sector.createFleet("neutral", "dummy");
+		dummyFleet.setFaction(army.getFlagFleet().getFleet().getFaction().getId());
+		dummyFleet.setName(army.getFlagFleet().getName());
+		PLDFleet fleet = PLD.getFactory().createPLDFleet(dummyFleet);
+		army.addFleet(fleet);
+		return fleet;
 	}
 	
-	/**
-	 * remove dummy station and its containning system
-	 * @param dummy
-	 */
-	public static void removeDummyStation(OrbitalStationAPI dummy){
-		SectorAPI sector = Global.getSector();
-		StarSystemAPI sys = sector.getStarSystem(PLDSettings.DUMMY_STAR_SYSTEM_NAME);
-//		LocationAPI sys = sector.getCurrentLocation();
-		if (sys != null){
-			sys.removeEntity(dummy);
-			if (sys instanceof StarSystemAPI)
-				sector.removeStarSystem((StarSystemAPI) sys);
-		}
-	}
 	
 	/**
 	 * remove a entity
 	 */
 	public static void removeEntity(SectorEntityToken entity){
 		entity.getContainingLocation().removeEntity(entity);
+	}
+	
+	/**
+	 * determine if fleet0 in player's army
+	 * @param fleet0
+	 * @return
+	 */
+	public static boolean isInPlayerArmy(SectorEntityToken fleet0){
+		if (fleet0 != null && fleet0 instanceof CampaignFleetAPI){
+			PLDRegistry reg = PLD.getRegistry();
+			PLDArmy army = reg.getPlayerArmy();
+			PLDFleet fleet = reg.getFleet((CampaignFleetAPI) fleet0);
+			return army.contains(fleet);
+		}
+		return false;
 	}
 	
 }

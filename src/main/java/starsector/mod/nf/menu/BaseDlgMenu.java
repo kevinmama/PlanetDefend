@@ -13,6 +13,31 @@ public class BaseDlgMenu extends BaseDlgMenuItem implements DlgMenu{
 	public BaseDlgMenu(String text, BaseDlgMenu parent){
 		super(text, parent);
 	}
+	
+	public BaseDlgMenu(String text, BaseDlgMenu parent, int keyCode){
+		super(text,parent, keyCode);
+	}
+	
+	/**
+	 * create proxy, reusing the impl's onSelect and onMouseOver function
+	 * @param item
+	 */
+	public static BaseDlgMenu createProxy(
+			String text,
+			BaseDlgMenu parent,
+			int keyCode,
+			final DlgMenuItem impl){
+		return new BaseDlgMenu(text, parent, keyCode){
+			@Override
+			public void onSelect(Object context) {
+				impl.onSelect(context);
+			}
+			@Override
+			public void onMouseOver() {
+				impl.onMouseOver();
+			}
+		};
+	}
 
 	public BaseDlgMenu addItem(DlgMenuItem item) {
 		impl.addItem(item);

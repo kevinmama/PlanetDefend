@@ -1,9 +1,12 @@
 package starsector.mod.nf.menu;
 
 import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+import org.lwjgl.input.Keyboard;
 
 import com.fs.starfarer.api.Global;
-import com.fs.starfarer.api.campaign.CoreInteractionListener;
 import com.fs.starfarer.api.campaign.InteractionDialogAPI;
 import com.fs.starfarer.api.campaign.InteractionDialogPlugin;
 import com.fs.starfarer.api.campaign.OptionPanelAPI;
@@ -27,6 +30,7 @@ public abstract class MenuDialogPlugin implements InteractionDialogPlugin{
 	private DlgMenu topMenu;
 	private DlgMenuItem backMenuItem;
 	private DlgMenuItem leaveMenuItem;
+	private Set<DlgMenuFactory> factories = new LinkedHashSet<DlgMenuFactory>();
 	
 	@Override
 	public void init(InteractionDialogAPI dialog) {
@@ -37,20 +41,26 @@ public abstract class MenuDialogPlugin implements InteractionDialogPlugin{
 		
 		setTopMenu(new BaseDlgMenu(null));
 		
-		backMenuItem = new BaseDlgMenuItem("back"){
+		backMenuItem = new BaseDlgMenuItem("back", null, Keyboard.KEY_BACK){
 			@Override
 			public void onSelect(Object context) {
 				visitor.back();
 			}
 		};
 		
-		leaveMenuItem = new BaseDlgMenuItem("leave"){
+		leaveMenuItem = new BaseDlgMenuItem("leave", null, Keyboard.KEY_ESCAPE){
 			public void onSelect(Object context) {
 				dispose();
 			};
 		};
 		
+		dialog.setOptionOnEscape(leaveMenuItem.getText(), leaveMenuItem);
+		
 		init();
+		
+		for (DlgMenuFactory factory : factories) {
+			factory.create(this);
+		}
 		
 		showMenu();
 	}
@@ -114,9 +124,9 @@ public abstract class MenuDialogPlugin implements InteractionDialogPlugin{
 	}
 
 	/**
-	 * covert menu to option
+	 * update options by menu
 	 */
-	protected void showMenu(){
+	public void showMenu(){
 		optionPanel.clearOptions();
 		
 		//
@@ -136,10 +146,8 @@ public abstract class MenuDialogPlugin implements InteractionDialogPlugin{
 		//
 		if (cur == visitor.top()){
 			leaveMenuItem.show(optionPanel);
-			dialog.setOptionOnEscape(leaveMenuItem.getText(), leaveMenuItem);
 		}else{
 			backMenuItem.show(optionPanel);
-			dialog.setOptionOnEscape(backMenuItem.getText(), backMenuItem);
 		}
 	}
 	
@@ -150,6 +158,26 @@ public abstract class MenuDialogPlugin implements InteractionDialogPlugin{
 		dispose = true;
 		Global.getSector().setPaused(false);
 		dialog.dismiss();
+	}
+
+	public InteractionDialogAPI getDialog() {
+		return dialog;
+	}
+
+	public OptionPanelAPI getOptionPanel() {
+		return optionPanel;
+	}
+
+	public VisualPanelAPI getVisualPanel() {
+		return visualPanel;
+	}
+
+	public TextPanelAPI getTextPanel() {
+		return textPanel;
+	}
+	
+	public void addMenuFactory(DlgMenuFactory factory){
+		factories.add(factory);
 	}
 	
 }
